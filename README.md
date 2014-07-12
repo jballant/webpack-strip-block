@@ -10,7 +10,7 @@ In your client js source files:
 ```javascript
 
 var makeFoo(bar, baz) {
-    // The following code will be stripped with our gulp task
+    // The following code will be stripped with our webpack loader
     /* develblock:start */
     if (bar instanceof Bar !== true) {
         throw new Error('makeFoo: bar param is required and must be instance of Bar');
