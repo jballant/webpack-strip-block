@@ -10,7 +10,8 @@
     "homepage": "https://github.com/jballant/webpack-strip-block",
     "keywords": [
         "webpack",
-        "webpackplugin"
+        "webpackloader",
+        "stripcode"
     ],
     "author": {
         "name": "James Ballantine",
