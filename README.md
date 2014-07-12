@@ -33,3 +33,4 @@ In your webpack config:
         ]
     }
 };
+```
