@@ -1,6 +1,6 @@
 {
     "name": "webpack-strip-block",
-    "version": "0.0.0",
+    "version": "0.0.2",
     "description": "Webpack plugin to strip blocks of code that's only intended for development purposes",
     "main": "index.js",
     "repository": {
