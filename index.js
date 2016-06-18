@@ -3,18 +3,18 @@
 
 function StripBlockLoader(content) {
 
-    this.startComment = 'develblock:start';
-    this.endComment = 'develblock:end';
+    var startComment = 'develblock:start';
+    var endComment = 'develblock:end';
 
-    this.regexPattern = new RegExp("[\\t ]*\\/\\* ?" + this.startComment + " ?\\*\\/[\\s\\S]*?\\/\\* ?" + this.endComment + " ?\\*\\/[\\t ]*\\n?", "g");
+    var regexPattern = new RegExp("[\\t ]*\\/\\* ?" + startComment + " ?\\*\\/[\\s\\S]*?\\/\\* ?" + endComment + " ?\\*\\/[\\t ]*\\n?", "g");
 
-    content = content.replace(this.regexPattern, '');
-    
+    content = content.replace(regexPattern, '');
+
     if (this.cacheable) {
         this.cacheable(true);
     }
 
-    this.callback(null, content);
+    return content;
 }
 
 module.exports = StripBlockLoader;
