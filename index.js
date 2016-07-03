@@ -1,10 +1,12 @@
 /*jslint node:true */
 "use strict";
 
-function StripBlockLoader(content) {
+var loaderUtils = require("loader-utils");
 
-    var startComment = 'develblock:start';
-    var endComment = 'develblock:end';
+function StripBlockLoader(content) {
+    var query = loaderUtils.parseQuery(this.query);
+    var startComment = query.start || 'develblock:start';
+    var endComment = query.end || 'develblock:end';
 
     var regexPattern = new RegExp("[\\t ]*\\/\\* ?" + startComment + " ?\\*\\/[\\s\\S]*?\\/\\* ?" + endComment + " ?\\*\\/[\\t ]*\\n?", "g");
 
