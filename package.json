@@ -18,5 +18,10 @@
         "email": "james@1stdibs.com",
         "url": "http://www.1stdibs.com"
     },
+    "contributors": [{
+        "name": "Alexander Wunschik",
+        "email": "mail@wunschik.it",
+        "url": "http://www.wunschik.it"
+    }],
     "license": "MIT"
 }

@@ -34,3 +34,14 @@ In your webpack config:
     }
 };
 ```
+It is also possible to overwrite the `start` and `end` variables with url-encoded string values:
+
+```javascript
+{
+    module: {
+        loaders: [
+            { test: /\.js$/, loader: "webpack-strip-block?start=DEV-START&end=DEV-END" }
+        ]
+    }
+};
+```
