@@ -45,3 +45,20 @@ It is also possible to overwrite the `start` and `end` variables with url-encode
     }
 };
 ```
+
+### Webpack 2
+
+```javascript
+{
+  rules: [
+    {
+      test: /\.js$/,
+      enforce: 'pre',
+      exclude: /(node_modules|bower_components|\.spec\.js)/,
+      use: [
+        'webpack-strip-block?start=devcode:start&end=devcode:end'
+      ]
+    }
+  ]
+}
+```
