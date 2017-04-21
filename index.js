@@ -4,7 +4,7 @@
 var loaderUtils = require("loader-utils");
 
 function StripBlockLoader(content) {
-    var query = (this.query === '' ? {} : loaderUtils.parseQuery(this.query));
+    var query = this.query && typeof this.query === 'string' ? loaderUtils.parseQuery(this.query) : {};
     var startComment = query.start || 'develblock:start';
     var endComment = query.end || 'develblock:end';
 
