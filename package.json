@@ -23,5 +23,8 @@
         "email": "mail@wunschik.it",
         "url": "http://www.wunschik.it"
     }],
-    "license": "MIT"
+    "license": "MIT",
+    "dependencies": {
+        "loader-utils": "^1.1.0"
+    }
 }

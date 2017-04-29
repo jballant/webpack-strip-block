@@ -4,9 +4,9 @@
 var loaderUtils = require("loader-utils");
 
 function StripBlockLoader(content) {
-    var query = this.query && typeof this.query === 'string' ? loaderUtils.parseQuery(this.query) : {};
-    var startComment = query.start || 'develblock:start';
-    var endComment = query.end || 'develblock:end';
+    var options = loaderUtils.getOptions(this) || {};
+    var startComment = options.start || 'develblock:start';
+    var endComment = options.end || 'develblock:end';
 
     var regexPattern = new RegExp("[\\t ]*\\/\\* ?" + startComment + " ?\\*\\/[\\s\\S]*?\\/\\* ?" + endComment + " ?\\*\\/[\\t ]*\\n?", "g");
 
