@@ -39,7 +39,7 @@ module.exports = {
       ]
     }
   ]
-}
+};
 ```
 
 If you want to use custom comment tags to mark the start and end of the block to strip from your code, you can add options for "start" and "end" like this:
@@ -57,9 +57,10 @@ module.exports = {
           options: {
             start: 'DEV-START',
             end: 'DEV-END'
+          }
         }
       ]
     }
   ]
-}
+};
 ```
