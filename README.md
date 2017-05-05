@@ -3,7 +3,7 @@ Webpack Strip Block
 
 Webpack loader to strip blocks of code marked by special comment tags. Useful for removing code that you don't want in your production webpack bundle (e.g. verbose console warnings, etc).
 
-###Example:
+### Example:
 
 In your client js source files:
 
