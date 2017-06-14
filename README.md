@@ -8,8 +8,10 @@ Webpack loader to strip blocks of code marked by special comment tags. Useful fo
 In your client js source files:
 
 ```javascript
-
-var makeFoo(bar, baz) {
+/* debug:start */
+console.log('debug');
+/* debug:end */
+var makeFoo = function(bar, baz) {
     // The following code will be stripped with our webpack loader
     /* develblock:start */
     if (bar instanceof Bar !== true) {
@@ -23,44 +25,53 @@ var makeFoo(bar, baz) {
 
 ```
 
+```html
+<div>
+    <!-- develblock:start -->
+    <div class="debug">
+
+    </div>
+    <!-- develblock:end -->
+</div>
+```
+
 In your webpack config, specify the loader:
 
 ```javascript
-module.exports = {
-  rules: [
-    {
-      test: /\.js$/,
-      enforce: 'pre',
-      exclude: /(node_modules|bower_components|\.spec\.js)/,
-      use: [
-        {
-          loader: 'webpack-strip-block'
-        }
-      ]
-    }
-  ]
-};
-```
+var blocks = ['develblock'];
 
-If you want to use custom comment tags to mark the start and end of the block to strip from your code, you can add options for "start" and "end" like this:
+if (process.env.NODE_ENV === 'development') {
+    blocks.push('debug');
+}
 
-```javascript
 module.exports = {
-  rules: [
-    {
-      test: /\.js$/,
-      enforce: 'pre',
-      exclude: /(node_modules|bower_components|\.spec\.js)/,
-      use: [
-        {
-          loader: 'webpack-strip-block',
-          options: {
-            start: 'DEV-START',
-            end: 'DEV-END'
-          }
-        }
-      ]
+    module: {
+        rules: [
+            {
+                test: /\.js$/,
+                enforce: 'pre',
+                exclude: /(node_modules|bower_components|\.spec\.js)/,
+                use: [{
+                    loader: 'webpack-strip-block',
+                    options: {
+                        blocks: blocks,
+                        start: '/*',
+                        end: '*/'
+                    }
+                }]
+            }, {
+                test: /\.html$/,
+                enforce: 'pre',
+                use: [{
+                    loader: 'webpack-strip-block',
+                    options: {
+                        blocks: blocks,
+                        start: '<!--',
+                        end: '-->'
+                    }
+                }]
+            }
+        ]
     }
-  ]
 };
 ```
