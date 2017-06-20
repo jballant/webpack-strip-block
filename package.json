@@ -1,13 +1,13 @@
 {
-    "name": "webpack-strip-block",
+    "name": "webpack-strip-blocks",
     "version": "1.0.0",
     "description": "Webpack plugin to strip blocks of code that's only intended for development purposes",
     "main": "index.js",
     "repository": {
         "type": "git",
-        "url": "git://git@github.com/jballant/webpack-strip-block.git"
+        "url": "git://git@github.com/huanz/webpack-strip-block.git"
     },
-    "homepage": "https://github.com/jballant/webpack-strip-block",
+    "homepage": "https://github.com/huanz/webpack-strip-block",
     "keywords": [
         "webpack",
         "webpackloader",
