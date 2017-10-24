@@ -11,6 +11,7 @@ In your client js source files:
 /* debug:start */
 console.log('debug');
 /* debug:end */
+
 var makeFoo = function(bar, baz) {
     // The following code will be stripped with our webpack loader
     /* develblock:start */
@@ -52,7 +53,7 @@ module.exports = {
                 enforce: 'pre',
                 exclude: /(node_modules|bower_components|\.spec\.js)/,
                 use: [{
-                    loader: 'webpack-strip-block',
+                    loader: 'webpack-strip-blocks',
                     options: {
                         blocks: blocks,
                         start: '/*',
@@ -63,7 +64,7 @@ module.exports = {
                 test: /\.html$/,
                 enforce: 'pre',
                 use: [{
-                    loader: 'webpack-strip-block',
+                    loader: 'webpack-strip-blocks',
                     options: {
                         blocks: blocks,
                         start: '<!--',
@@ -74,4 +75,46 @@ module.exports = {
         ]
     }
 };
+```
+
+## Laravel Mix sample
+
+```
+let mix = require( 'laravel-mix' );
+
+/*
+ |--------------------------------------------------------------------------
+ | Webpack Strip Blocks
+ |--------------------------------------------------------------------------
+ |
+ | Here you can define your custom strip tags. For example, you may use:
+ | [ 'develblock', 'debug' ]
+ | in order to strip "debug:start" and "debug:end" as well
+ |
+ */
+
+const blocks = mix.inProduction() ? [ 'develblock' ] : null;
+
+mix.webpackConfig( {
+  module  : {
+    rules : [
+      {
+        test    : /\.js$/,
+        enforce : 'pre',
+        exclude : /(node_modules|bower_components|\.spec\.js)/,
+        use     : [
+          {
+            loader  : 'webpack-strip-blocks',
+            options : {
+              blocks : blocks,
+              start  : '/*',
+              end    : '*/'
+            }
+          }
+        ]
+      }
+    ]
+  }
+} );
+
 ```
