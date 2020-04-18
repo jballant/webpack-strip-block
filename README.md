@@ -64,3 +64,27 @@ module.exports = {
   ]
 };
 ```
+
+If you need to use multiple comment tags to mark the start and end of the block to strip from your code, you can add options for "start" and "end" like this:
+
+```javascript
+module.exports = {
+  rules: [
+    {
+      test: /\.js$/,
+      enforce: 'pre',
+      exclude: /(node_modules|bower_components|\.spec\.js)/,
+      use: [
+        {
+          loader: 'webpack-strip-block',
+          options: {
+            start: ['/*', '<!--'],
+            end: ['*/', '-->']
+          }
+        }
+      ]
+    }
+  ]
+};
+```
+Make sure to use the same comment tag order in both "start" and "end".
