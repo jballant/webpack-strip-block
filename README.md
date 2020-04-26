@@ -8,8 +8,11 @@ Webpack loader to strip blocks of code marked by special comment tags. Useful fo
 In your client js source files:
 
 ```javascript
+/* debug:start */
+console.log('debug');
+/* debug:end */
 
-var makeFoo(bar, baz) {
+var makeFoo = function(bar, baz) {
     // The following code will be stripped with our webpack loader
     /* develblock:start */
     if (bar instanceof Bar !== true) {
@@ -23,44 +26,95 @@ var makeFoo(bar, baz) {
 
 ```
 
+```html
+<div>
+    <!-- develblock:start -->
+    <div class="debug">
+
+    </div>
+    <!-- develblock:end -->
+</div>
+```
+
 In your webpack config, specify the loader:
 
 ```javascript
+var blocks = ['develblock'];
+
+if (process.env.NODE_ENV === 'development') {
+    blocks.push('debug');
+}
+
 module.exports = {
-  rules: [
-    {
-      test: /\.js$/,
-      enforce: 'pre',
-      exclude: /(node_modules|bower_components|\.spec\.js)/,
-      use: [
-        {
-          loader: 'webpack-strip-block'
-        }
-      ]
+    module: {
+        rules: [
+            {
+                test: /\.js$/,
+                enforce: 'pre',
+                exclude: /(node_modules|bower_components|\.spec\.js)/,
+                use: [{
+                    loader: 'webpack-strip-blocks',
+                    options: {
+                        blocks: blocks,
+                        start: '/*',
+                        end: '*/'
+                    }
+                }]
+            }, {
+                test: /\.html$/,
+                enforce: 'pre',
+                use: [{
+                    loader: 'webpack-strip-blocks',
+                    options: {
+                        blocks: blocks,
+                        start: '<!--',
+                        end: '-->'
+                    }
+                }]
+            }
+        ]
     }
-  ]
 };
 ```
 
-If you want to use custom comment tags to mark the start and end of the block to strip from your code, you can add options for "start" and "end" like this:
+## Laravel Mix sample
 
-```javascript
-module.exports = {
-  rules: [
-    {
-      test: /\.js$/,
-      enforce: 'pre',
-      exclude: /(node_modules|bower_components|\.spec\.js)/,
-      use: [
-        {
-          loader: 'webpack-strip-block',
-          options: {
-            start: 'DEV-START',
-            end: 'DEV-END'
+```
+let mix = require( 'laravel-mix' );
+
+/*
+ |--------------------------------------------------------------------------
+ | Webpack Strip Blocks
+ |--------------------------------------------------------------------------
+ |
+ | Here you can define your custom strip tags. For example, you may use:
+ | [ 'develblock', 'debug' ]
+ | in order to strip "debug:start" and "debug:end" as well
+ |
+ */
+
+const blocks = mix.inProduction() ? [ 'develblock' ] : null;
+
+mix.webpackConfig( {
+  module  : {
+    rules : [
+      {
+        test    : /\.js$/,
+        enforce : 'pre',
+        exclude : /(node_modules|bower_components|\.spec\.js)/,
+        use     : [
+          {
+            loader  : 'webpack-strip-blocks',
+            options : {
+              blocks : blocks,
+              start  : '/*',
+              end    : '*/'
+            }
           }
-        }
-      ]
-    }
-  ]
-};
+        ]
+      }
+    ]
+  }
+} );
+
 ```
