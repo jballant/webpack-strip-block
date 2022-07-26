@@ -32,23 +32,12 @@ function StripBlockLoader(content) {
         startWhitespaceMatcher = "^" + whitespaceMatcher;
         endWhitespaceMatcher = whitespaceMatcher + "\\n?"
     }
-    var regexPattern = new RegExp(startWhitespaceMatcher +
-            "\\/\\* ?" + startComment + " ?\\*\\/[\\s\\S]*?\\/\\* ?" + 
-            endComment + " ?\\*\\/" + endWhitespaceMatcher, "g");
-
-    var startWhitespaceMatcher = "";
-    var endWhitespaceMatcher = "";
-    var whitespaceMatcher = "[\\t ]*"
-    // if removeOuterWhitespace is true, remove whitespace on
-    // the line outside of the comment tags to start and end
-    // the dev block
-    if (removeOuterWhitespace) {
-        startWhitespaceMatcher = "^" + whitespaceMatcher;
-        endWhitespaceMatcher = whitespaceMatcher + "\\n?"
-    }
-    var regexPattern = new RegExp(startWhitespaceMatcher +
-            "\\/\\* ?" + startComment + " ?\\*\\/[\\s\\S]*?\\/\\* ?" + 
-            endComment + " ?\\*\\/" + endWhitespaceMatcher, "g");
+    var regexPatternBlock = new RegExp(startWhitespaceMatcher +
+        "\\/\\* ?" + startComment + " ?\\*\\/[\\s\\S]*?\\/\\* ?" +
+        endComment + " ?\\*\\/" + endWhitespaceMatcher, "g");
+    var regexPatternInline = new RegExp(startWhitespaceMatcher +
+        "\\/\\/" + startComment + "\n[\\s\\S]*?\/\/" +
+        endComment + endWhitespaceMatcher, "g");
 
     // format the replacement comment str, but omit the replacement
     // comment entirely if empty string is passed in as the value
@@ -59,7 +48,11 @@ function StripBlockLoader(content) {
     replacement = (!!replacement)
         ? ('/* ' + replacement + ' */')
         : '';
-    content = content.replace(regexPattern, replacement);
+    if (regexPatternBlock.test(content)) {
+        content = content.replace(regexPatternBlock, replacement);
+    } else if (regexPatternInline.test(content)) {
+        content = content.replace(regexPatternInline, replacement);
+    }
 
     if (this.cacheable) {
         this.cacheable(true);
