@@ -36,6 +36,13 @@ const EXPECTED_OUTPUT_INLINE = `function addThree(num) {
 
 module.exports = addThree;
 `;
+const EXPECTED_OUTPUT_IFDEF = `function ifdef(num) {
+    /* webpack-strip-block:removed */
+    return num + three;
+}
+
+module.exports = ifdef;
+`;
 
 const EXPECTED_OUTPUT_INLINE_REGEX_CHARS_1 = `class TestRegexChars {
     usingDot() {
@@ -165,6 +172,19 @@ describe('webpack-strip-block', () => {
             });
             const output = stats.toJson().modules[0].source;
             assert.equal(output, EXPECTED_OUTPUT_NO_OUTER_WHITESPACE);
+        });
+    });
+
+    describe('ifdef-like support', () => {
+        it('handles single line comment', async () => {
+            const stats = await testCompiler('fixtures/example-ifdef', {
+                options: {
+                    start: 'DEV:START',
+                    end: 'DEV:END',
+                }
+            });
+            const output = stats.toJson().modules[0].source;
+            assert.equal(output, EXPECTED_OUTPUT_IFDEF);
         });
     });
 });
